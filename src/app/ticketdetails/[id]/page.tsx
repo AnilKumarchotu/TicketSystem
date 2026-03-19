@@ -49,7 +49,7 @@ export default function TicketDetails() {
   const params = useParams();
   const router = useRouter();
   const [loading, setIsloading] = useState<boolean>(false);
-  const [getTicketsData, setgetTicketsData] = useState<Ticket>(null);
+  const [getTicketsData, setgetTicketsData] = useState<Ticket | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // Get the ticket ID safely (even if it's null initially)
