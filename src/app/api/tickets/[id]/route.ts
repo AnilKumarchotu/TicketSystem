@@ -21,32 +21,16 @@ export async function PUT(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
-  try {
-    await connectDB();
+  await connectDB();
 
-    const { id } = await context.params;
-    const body = await req.json();
+  const { id } = await context.params;
+  const body = await req.json();
 
-    const ticket = await Ticket.findByIdAndUpdate(id, body, {
-      new: true,
-    });
+  const ticket = await Ticket.findByIdAndUpdate(id, body, {
+    new: true,
+  });
 
-    if (!ticket) {
-      return NextResponse.json(
-        { message: "Ticket not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(ticket);
-  } catch (error) {
-    console.error("PUT error:", error);
-
-    return NextResponse.json(
-      { message: "Server error" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(ticket);
 }
 
 // ✅ DELETE
@@ -58,16 +42,7 @@ export async function DELETE(
 
   const { id } = await context.params;
 
-  const deleted = await Ticket.findByIdAndDelete(id);
+  await Ticket.findByIdAndDelete(id);
 
-  if (!deleted) {
-    return NextResponse.json(
-      { message: "Ticket not found" },
-      { status: 404 }
-    );
-  }
-
-  return NextResponse.json({
-    message: "Ticket deleted",
-  });
+  return NextResponse.json({ success: true });
 }
