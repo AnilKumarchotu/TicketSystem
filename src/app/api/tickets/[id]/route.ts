@@ -1,12 +1,25 @@
 import { connectDB } from "@/lib/mongodb";
 import Ticket from "@/models/Ticket";
-import { NextResponse } from "next/server";
+import {NextRequest, NextResponse } from "next/server";
+
+// export async function GET(
+//   req: Request,
+//   { params }: { params: { id: string } }
+// ) {
+//   const ticket = await Ticket.findById(params.id);
+//   return NextResponse.json(ticket);
+// }
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: any
 ) {
-  const ticket = await Ticket.findById(params.id);
+  await connectDB(); // important!
+
+  const { id } = context.params;
+
+  const ticket = await Ticket.findById(id);
+
   return NextResponse.json(ticket);
 }
 
